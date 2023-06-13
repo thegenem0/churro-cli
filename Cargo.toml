@@ -1,0 +1,20 @@
+[package]
+name = "churro-cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+crossterm = { version = "0.26.1", features = [ "serde" ] }
+serde = {version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+rand = { version = "0.8.5", features = ["std"] }
+tui = { version = "0.19", default-features = false, features = ['crossterm', 'serde'] }
+thiserror = "1.0"
+reqwest = { version = "0.11.18", features = ["json"] }
+tokio = { version = "1.11", features = ["full"] }
+sha2 = "0.10.6"
+base64 = "0.21.1"
+url = "2.2.2"
