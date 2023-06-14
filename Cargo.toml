@@ -7,14 +7,9 @@ edition = "2021"
 
 [dependencies]
 crossterm = { version = "0.26.1", features = [ "serde" ] }
-serde = {version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-chrono = { version = "0.4", features = ["serde"] }
-rand = { version = "0.8.5", features = ["std"] }
 tui = { version = "0.19", default-features = false, features = ['crossterm', 'serde'] }
-thiserror = "1.0"
 reqwest = { version = "0.11.18", features = ["json"] }
-tokio = { version = "1.11", features = ["full"] }
-sha2 = "0.10.6"
-base64 = "0.21.1"
-url = "2.2.2"
+tokio = { version = "1.28.2", features = ["full"] }
+tui-logger = "0.9.2"
+eyre = "0.6.8"
+log = "0.4.19"
