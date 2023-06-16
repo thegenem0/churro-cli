@@ -6,9 +6,15 @@ use churro_cli::{
 use eyre::Result;
 use log::LevelFilter;
 use std::sync::Arc;
+extern crate dotenv;
+
+use dotenv::dotenv;
+
+extern crate dotenv_codegen;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    dotenv().ok();
     let (sync_io_tx, mut sync_io_rx) = tokio::sync::mpsc::channel::<IoEvent>(100);
 
     let app = Arc::new(tokio::sync::Mutex::new(App::new(sync_io_tx.clone())));
