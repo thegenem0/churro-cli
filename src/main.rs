@@ -1,9 +1,9 @@
+use anyhow::Result;
 use churro_cli::{
     app::App,
     io::{handler::IoAsyncHandler, IoEvent},
     start_ui,
 };
-use eyre::Result;
 use log::LevelFilter;
 use std::sync::Arc;
 extern crate dotenv;

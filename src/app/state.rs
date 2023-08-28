@@ -1,16 +1,12 @@
 use std::time::Duration;
 
-use oauth2::{basic::BasicTokenType, EmptyExtraTokenFields, StandardTokenResponse};
-
 #[derive(Clone)]
 pub enum AppState {
     Init,
-    LoggedOut,
     Initialized {
         duration: Duration,
         counter_sleep: u32,
         counter_tick: u64,
-        auth_token: Option<StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>>,
     },
 }
 
@@ -23,7 +19,6 @@ impl AppState {
             duration,
             counter_sleep,
             counter_tick,
-            auth_token: None,
         }
     }
 
@@ -78,23 +73,6 @@ impl AppState {
         if let Self::Initialized { duration, .. } = self {
             let secs = (duration.as_secs() + 1).clamp(1, 10);
             *duration = Duration::from_secs(secs);
-        }
-    }
-
-    pub fn set_token(
-        &mut self,
-        token: StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>,
-    ) {
-        if let Self::Initialized { auth_token, .. } = self {
-            *auth_token = Some(token);
-        }
-    }
-
-    pub fn is_authenticated(&self) -> bool {
-        if let Self::Initialized { auth_token, .. } = self {
-            auth_token.is_some()
-        } else {
-            false
         }
     }
 }

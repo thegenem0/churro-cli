@@ -1,12 +1,10 @@
 use std::{sync::Arc, time::Duration};
 
 use crate::app::App;
-use eyre::Result;
+use anyhow::Result;
 
 use super::IoEvent;
 use log::{error, info};
-
-use crate::jira::auth_service;
 
 pub struct IoAsyncHandler {
     app: Arc<tokio::sync::Mutex<App>>,
@@ -21,7 +19,6 @@ impl IoAsyncHandler {
         let result = match io_event {
             IoEvent::Initialize => self.do_initialize().await,
             IoEvent::Sleep(duration) => self.do_sleep(duration).await,
-            IoEvent::Login => self.do_login().await,
         };
 
         if let Err(err) = result {
@@ -49,18 +46,6 @@ impl IoAsyncHandler {
         // Notify the app for having slept
         let mut app = self.app.lock().await;
         app.slept();
-        Ok(())
-    }
-
-    async fn do_login(&mut self) -> Result<()> {
-        info!("🔑 Login...");
-        let token = auth_service::authenticate().await;
-        // Notify the app for having logged in
-        let mut app = self.app.lock().await;
-        match token {
-            Ok(token) => app.set_token(token),
-            Err(err) => error!("Error logging in: {}", err),
-        }
         Ok(())
     }
 }

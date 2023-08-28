@@ -4,14 +4,13 @@ use io::IoEvent;
 use std::{sync::Arc, time::Duration};
 
 use crate::app::ui;
-use eyre::Result;
+use anyhow::Result;
 
 use tui::{backend::CrosstermBackend, Terminal};
 
 pub mod app;
 pub mod inputs;
 pub mod io;
-pub mod jira;
 
 pub async fn start_ui(app: &Arc<tokio::sync::Mutex<App>>) -> Result<()> {
     // Crossterm backend config

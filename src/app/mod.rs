@@ -10,8 +10,6 @@ pub mod state;
 pub mod ui;
 
 use log::{debug, error, warn};
-use oauth2::{basic::BasicTokenType, EmptyExtraTokenFields, StandardTokenResponse};
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum AppReturn {
     Exit,
@@ -66,10 +64,6 @@ impl App {
                     self.state.decrement_delay();
                     AppReturn::Continue
                 }
-                Action::Login => {
-                    self.dispatch(IoEvent::Login).await;
-                    AppReturn::Continue
-                }
             }
         } else {
             warn!("No action found for key: {:?}", key);
@@ -100,7 +94,6 @@ impl App {
             Action::Sleep,
             Action::IncrementDelay,
             Action::DecrementDelay,
-            Action::Login,
         ]
         .into();
         self.state = AppState::initialized()
@@ -112,12 +105,5 @@ impl App {
 
     pub fn slept(&mut self) {
         self.state.incr_sleep();
-    }
-
-    pub fn set_token(
-        &mut self,
-        token: StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>,
-    ) {
-        self.state.set_token(token);
     }
 }
